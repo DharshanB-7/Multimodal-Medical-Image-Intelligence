@@ -714,6 +714,4 @@ This creates a unified AI-assisted workflow for reviewing medical images togethe
 
 > **Disclaimer:** This project is an AI-assisted clinical decision-support prototype. It is not a replacement for a qualified medical professional, and its outputs should not be used as a standalone diagnosis or treatment decision.
 #   M u l t i m o d a l - M e d i c a l - I m a g e - I n t e l l i g e n c e  
- #   M u l t i m o d a l - M e d i c a l - I m a g e - I n t e l l i g e n c e  
- #   M u l t i m o d a l - M e d i c a l - I m a g e - I n t e l l i g e n c e  
  

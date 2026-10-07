@@ -1,0 +1,22 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --bg: #f3f6f8; --surface: #ffffff; --ink: #0e1a2b; --muted: #55677c; --line: #dae2ea;
+  --brand: #0a6e78; --brand-ink: #ffffff; --warn: #8a5300; --warn-bg: #fff4de; --danger: #b42318; --danger-bg: #fdecea; --ok: #1a7f4b;
+}
+.dark {
+  --bg: #0a1017; --surface: #111a24; --ink: #e8eef5; --muted: #93a5b9; --line: #213040;
+  --brand: #46c6d0; --brand-ink: #03252a; --warn: #f2b865; --warn-bg: #2a2010; --danger: #ff8a7c; --danger-bg: #301614; --ok: #5ed39b;
+}
+@theme inline {
+  --color-bg: var(--bg); --color-surface: var(--surface); --color-ink: var(--ink); --color-muted: var(--muted);
+  --color-line: var(--line); --color-brand: var(--brand); --color-brand-ink: var(--brand-ink);
+  --color-warn: var(--warn); --color-warn-bg: var(--warn-bg); --color-danger: var(--danger); --color-danger-bg: var(--danger-bg); --color-ok: var(--ok);
+  --font-sans: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+}
+body { background: var(--bg); color: var(--ink); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+@keyframes slide { 0% { transform: translateX(-100%); } 100% { transform: translateX(350%); } }
+.indeterminate { animation: slide 1.4s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .indeterminate { animation: none; width: 100%; } * { scroll-behavior: auto !important; } }

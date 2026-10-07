@@ -1,51 +1,56 @@
 # Multimodal Medical Image Intelligence
 
+AI-assisted clinical decision-support system for analyzing medical images together with patient clinical context.
+
+> **Disclaimer:** This project is a prototype for research and demonstration purposes. It is not a medical device, is not clinically validated, and is not a replacement for a qualified medical professional.
+
 ## 1. What the Project Does
 
-**Multimodal Medical Image Intelligence** is a clinician-facing AI-assisted clinical decision-support system for analyzing medical images together with patient clinical context.
+**Multimodal Medical Image Intelligence** combines a medical image with patient information such as age, sex, symptoms, clinical notes, and test results.
 
-The system allows a user to:
+The system is designed to:
 
 - Upload a medical image.
-- Enter patient age and sex.
-- Provide symptoms, clinical notes, and test results.
+- Collect patient clinical context.
 - Send the image and clinical context to a FastAPI backend.
 - Analyze the input using **MedGemma 1.5 4B** through **Ollama**.
-- Display possible AI-assisted findings.
-- Show confidence scores and apply a configurable confidence threshold.
-- Present supporting evidence and explanations.
+- Generate possible AI-assisted findings.
+- Display confidence information and apply a configurable confidence threshold.
+- Provide supporting evidence and an explanation.
 - Visualize suspected regions using bounding boxes and optional heatmaps.
-- Review the result through a web-based clinician-oriented interface.
+- Present the result through a web-based clinician-oriented interface.
 
-The system is intended as an **AI-assisted clinical decision-support tool and not as a replacement for a qualified medical professional**.
-
-### High-level workflow
+### High-Level Workflow
 
 ```text
-Medical Image
-      +
-Patient Age / Sex
-      +
-Symptoms / Clinical Notes / Test Results
-      ↓
-Next.js Frontend
-      ↓
-REST API
-      ↓
-FastAPI Backend
-      ↓
-Image Preprocessing
-      ↓
-MedGemma 1.5 4B via Ollama
-      ↓
-Evidence / Confidence / Localization Processing
-      ↓
-Analysis Result
-      ↓
-Frontend Visualization
-      ↓
-Finding + Evidence + Confidence + Explanation
+Medical Image + Patient Context
+              |
+              v
+       Next.js Frontend
+              |
+              v
+          REST API
+              |
+              v
+       FastAPI Backend
+              |
+              v
+      Image Preprocessing
+              |
+              v
+    MedGemma 1.5 4B / Ollama
+              |
+              v
+ Evidence + Confidence + Localization
+              |
+              v
+       Analysis Result
+              |
+              v
+      Frontend Visualization
 ```
+
+The system is intended to support clinical review. AI-generated results must be reviewed by an appropriately qualified healthcare professional.
 
 ---
 
@@ -53,91 +58,79 @@ Finding + Evidence + Confidence + Explanation
 
 ### Frontend
 
-- **Next.js**
-- **React**
-- **TypeScript**
-- **Tailwind CSS**
-- Browser storage for demo history/current results
-- REST API integration using `fetch`
+| Technology | Purpose |
+| --- | --- |
+| Next.js | Web application framework |
+| React | User interface |
+| TypeScript | Type-safe frontend development |
+| Tailwind CSS | Interface styling |
+| Fetch / REST API | Frontend-backend communication |
 
 ### Backend
 
-- **Python**
-- **FastAPI**
-- **Uvicorn**
-- **Pydantic**
-- **Pillow** for image processing
-- **pytest** for testing
-- REST API with multipart image upload
-- CORS middleware
+| Technology | Purpose |
+| --- | --- |
+| Python | Backend development |
+| FastAPI | REST API framework |
+| Uvicorn | ASGI server |
+| Pydantic | Request and response validation |
+| Pillow | Image processing |
+| pytest | Backend testing |
+| CORS Middleware | Frontend-backend communication |
 
 ### AI / Model Layer
 
-- **Ollama** for local model execution
-- **MedGemma 1.5 4B** as the medical vision-language model
+| Technology | Purpose |
+| --- | --- |
+| Ollama | Local AI model execution |
+| MedGemma 1.5 4B | Medical vision-language model |
 
-The model is used as a pretrained multimodal model. The project does not train MedGemma from scratch.
-
-### Main project components
-
-```text
-Frontend:
-Next.js → Patient Context → Image Upload → Results Visualization
-
-Backend:
-FastAPI → Image Processing → MedGemma/Ollama → Evidence Validation
-        → Confidence/Localization Processing → JSON Response
-```
+**MedGemma is used as a pretrained model. This project does not train MedGemma from scratch.**
 
 ---
 
 ## 3. Repository Structure
 
-The public Git repository contains both the frontend and backend:
-
 ```text
 medical-image-intelligence/
-│
-├── README.md
-│
-├── medical-ai-backend/
-│   ├── app/
-│   │   ├── main.py
-│   │   ├── api/
-│   │   ├── core/
-│   │   ├── schemas/
-│   │   ├── services/
-│   │   └── utils/
-│   ├── docs/
-│   ├── tests/
-│   ├── storage/
-│   ├── .env.example
-│   ├── requirements.txt
-│   └── run.py
-│
-└── mii/
-    ├── app/
-    ├── components/
-    ├── lib/
-    ├── public/
-    ├── .env.example
-    ├── package.json
-    └── next.config.ts
+|
+|-- README.md
+|
+|-- medical-ai-backend/
+|   |-- app/
+|   |   |-- main.py
+|   |   |-- api/
+|   |   |-- core/
+|   |   |-- schemas/
+|   |   |-- services/
+|   |   `-- utils/
+|   |-- docs/
+|   |-- storage/
+|   |-- tests/
+|   |-- .env.example
+|   |-- requirements.txt
+|   `-- run.py
+|
+`-- mii/
+    |-- app/
+    |-- components/
+    |-- lib/
+    |-- public/
+    |-- .env.example
+    |-- .env.local
+    |-- package.json
+    `-- next.config.ts
 ```
-
-The root `README.md` is the complete project documentation. The frontend and backend may also contain their own component-specific README files.
 
 ---
 
-## 4. How to Install Dependencies
+## 4. Prerequisites
 
-### Prerequisites
+Install the following software before running the project:
 
-Install the following before running the project:
-
-- **Python 3.10+**
-- **Node.js and npm**
-- **Ollama**
+- Python 3.10 or newer
+- Node.js and npm
+- Ollama
 - Git
 
 Verify the installations:
@@ -149,7 +142,11 @@ npm --version
 ollama --version
 ```
 
-### 4.1 Install Backend Dependencies
+---
+
+## 5. Install Dependencies
+
+### 5.1 Backend
 
 Open a terminal in the repository root:
 
@@ -157,18 +154,19 @@ Open a terminal in the repository root:
 cd medical-ai-backend
 ```
 
-Create a Python virtual environment:
+Create a Python virtual environment.
 
-### Windows
+**Windows PowerShell:**
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 ```
 
-If PowerShell activation is restricted, use Command Prompt:
+**Windows Command Prompt:**
 
 ```cmd
+python -m venv .venv
 .venv\Scripts\activate
 ```
 
@@ -178,7 +176,7 @@ Install the backend dependencies:
 pip install -r requirements.txt
 ```
 
-### 4.2 Install Frontend Dependencies
+### 5.2 Frontend
 
 Open another terminal:
 
@@ -189,23 +187,27 @@ npm install
 
 ---
 
-## 5. How to Configure the System
+## 6. Configure the System
 
-### 5.1 Backend Configuration
+### 6.1 Backend Environment
 
-Inside `medical-ai-backend`, copy the example environment file:
+Inside `medical-ai-backend`, create `.env` from `.env.example`.
 
-```bash
+**Command Prompt:**
+
+```cmd
 copy .env.example .env
 ```
 
-On systems where `cp` is available:
+**PowerShell:**
 
-```bash
-cp .env.example .env
+```powershell
+Copy-Item .env.example .env
 ```
 
-Configure the important values in `.env`:
+Configure the model and server settings. Use the variable names already provided by your `.env.example` file.
+
+A typical configuration is:
 
 ```env
 OLLAMA_BASE_URL=http://localhost:11434
@@ -219,9 +221,7 @@ MOCK_MODEL=false
 STORAGE_DIR=storage
 ```
 
-The exact variable names should match the `.env.example` file included in the repository.
-
-### 5.2 Frontend Configuration
+### 6.2 Frontend Environment
 
 Inside `mii`, configure `.env.local`:
 
@@ -230,144 +230,132 @@ NEXT_PUBLIC_API_URL=http://localhost:8000
 NEXT_PUBLIC_USE_MOCK_API=false
 ```
 
-`NEXT_PUBLIC_API_URL` specifies the FastAPI backend.
+Use the exact variable names expected by the current frontend code if they differ from the example above.
 
-`NEXT_PUBLIC_USE_MOCK_API=true` can be used to demonstrate the frontend without running the AI backend.
-
-Restart the Next.js development server after changing environment variables.
+After changing environment variables, restart the Next.js development server.
 
 ---
 
-## 6. How to Configure and Run the System
+## 7. Configure and Run Ollama
 
-The project uses three local services/processes:
-
-```text
-Terminal 1 → Ollama
-Terminal 2 → FastAPI Backend
-Terminal 3 → Next.js Frontend
-```
-
-### Step 1: Start Ollama
-
-Make sure Ollama is installed and running.
-
-Pull the model:
+Pull the MedGemma model:
 
 ```bash
 ollama pull medgemma1.5:4b
 ```
 
-Check available models:
+Verify that the model is installed:
 
 ```bash
 ollama list
 ```
 
-The backend expects Ollama at:
-
-```text
-http://localhost:11434
-```
-
-If required, start the Ollama server:
+If Ollama is not already running, start the server:
 
 ```bash
 ollama serve
 ```
 
-### Step 2: Start the FastAPI Backend
+The default Ollama server is:
 
-Open a new terminal:
+```text
+http://localhost:11434
+```
+
+---
+
+## 8. Run the Backend
+
+Open a terminal:
 
 ```bash
 cd medical-ai-backend
 ```
 
-Activate the virtual environment:
+Activate the virtual environment if it is not already active.
+
+**PowerShell:**
 
 ```powershell
 .\.venv\Scripts\Activate.ps1
 ```
 
-Run FastAPI:
+Start FastAPI:
 
 ```bash
 python -m uvicorn app.main:app --reload --port 8000
 ```
 
-The backend should be available at:
+Backend URL:
 
 ```text
 http://localhost:8000
 ```
 
-Swagger API documentation:
+FastAPI Swagger documentation:
 
 ```text
 http://localhost:8000/docs
 ```
 
-Check the backend:
+---
 
-```bash
-curl http://localhost:8000/health
-```
+## 9. Run the Frontend
 
-### Step 3: Start the Frontend
-
-Open another terminal:
+Open a new terminal:
 
 ```bash
 cd mii
 npm run dev
 ```
 
-The frontend should be available at:
+The frontend will normally be available at:
 
 ```text
 http://localhost:3000
 ```
 
-Open this address in a browser.
+Open this address in a web browser.
 
 ---
 
-# 7. How to Reproduce the Demonstrated Results
+## 10. Reproduce the Demonstrated Results
 
-Follow these steps to reproduce the demonstrated workflow.
+Use the following sequence to reproduce the demonstrated workflow.
 
-### Step 1 — Start Ollama
+### Step 1: Start Ollama
 
 ```bash
 ollama list
 ```
 
-Confirm that the MedGemma model is available.
+Make sure `medgemma1.5:4b` is available.
 
-If it is not installed:
+If it is not available:
 
 ```bash
 ollama pull medgemma1.5:4b
 ```
 
-### Step 2 — Start the Backend
+### Step 2: Start the Backend
 
 ```bash
 cd medical-ai-backend
-.\.venv\Scripts\Activate.ps1
+```
+
+```bash
 python -m uvicorn app.main:app --reload --port 8000
 ```
 
-Verify:
+Check:
 
 ```text
 http://localhost:8000/docs
 ```
 
-### Step 3 — Start the Frontend
+### Step 3: Start the Frontend
 
-In a separate terminal:
+In another terminal:
 
 ```bash
 cd mii
@@ -380,153 +368,92 @@ Open:
 http://localhost:3000
 ```
 
-### Step 4 — Provide an Image
+### Step 4: Upload a Medical Image
 
-Upload a supported medical image through the frontend.
+Upload a supported medical image through the application interface.
 
-The backend validates the image before sending it to the model.
+### Step 5: Enter Patient Context
 
-### Step 5 — Enter Clinical Context
+Enter the available information, such as:
 
-Enter the available patient information, such as:
+- Patient age
+- Patient sex
+- Symptoms
+- Clinical notes
+- Test results
 
-```text
-Patient Age: 54
-Patient Sex: Male
+### Step 6: Run the Analysis
 
-Symptoms:
-fever and productive cough for 3 days
+Submit the analysis request.
 
-Clinical Notes:
-Relevant clinical history
+The frontend sends the image and clinical context to the FastAPI backend. The backend processes the input and communicates with MedGemma through Ollama.
 
-Test Results:
-Available test information
-```
+### Step 7: Review the Result
 
-Use the actual demonstration input when reproducing a specific result.
+Depending on the available model output and processing, the interface can display:
 
-### Step 6 — Run Analysis
-
-Submit the image and patient information.
-
-The frontend sends:
-
-```text
-POST /api/v1/analyze
-```
-
-using `multipart/form-data`.
-
-The backend processes the request and sends the image/context to MedGemma through Ollama.
-
-### Step 7 — Review the Result
-
-The frontend displays the returned analysis, including available:
-
-- Finding
-- Confidence
-- Evidence
+- Possible finding
+- Confidence information
+- Supporting evidence
 - Clinical context
 - Explanation
-- Recommendation
-- Bounding-box localization
-- Heatmap
-- Warnings/disclaimer
-
-The response follows the project's `AnalysisResponse` structure.
-
-Example:
-
-```json
-{
-  "analysis_id": "ANL-0001",
-  "model": {
-    "name": "medgemma1.5",
-    "version": "4B"
-  },
-  "assessment": {
-    "summary": "Possible finding requiring clinical review",
-    "overall_confidence": 0.87
-  },
-  "findings": [
-    {
-      "id": "finding_1",
-      "label": "Possible abnormality",
-      "confidence": 0.87,
-      "location": {
-        "x": 120,
-        "y": 80,
-        "width": 250,
-        "height": 180
-      },
-      "evidence": "Supporting visual evidence",
-      "clinical_context": "Relevant patient context",
-      "explanation": "AI-assisted explanation"
-    }
-  ]
-}
-```
+- Suspected location
+- Bounding box
+- Heatmap, when available
+- Warnings and safety information
 
 ---
 
-## 8. Confidence Threshold
+## 11. Confidence Threshold
 
-The frontend can use a configurable confidence threshold to filter lower-confidence observations.
+The prototype uses a configurable confidence threshold to filter lower-confidence observations.
 
-For the current prototype, a **70% operating threshold** can be used.
+The current operating threshold is **70%**.
 
-Example:
+For example:
 
 ```text
-AI confidence = 95%
+AI Confidence = 95%
 Threshold      = 70%
 
 95% >= 70%
-       ↓
+       |
+       v
 Finding passes the filter
 ```
 
-Another example:
+If the confidence is below the threshold:
 
 ```text
-AI confidence = 65%
+AI Confidence = 65%
 Threshold      = 70%
 
 65% < 70%
-       ↓
-Finding is below the configured threshold
+       |
+       v
+Finding is below the threshold
 ```
 
-The threshold is a filtering mechanism and **does not mean that a 70% confidence score represents 70% diagnostic accuracy**.
+### Important
 
-For a clinically validated system, the threshold would need to be determined using an appropriate labeled validation dataset and evaluation of measures such as sensitivity, specificity, precision, recall, and false-negative rate.
+A **70% threshold does not mean 70% diagnostic accuracy**. It is an operating/filtering threshold for the prototype.
 
----
+For a clinically validated system, the threshold should be selected using labeled validation data and evaluated using metrics such as:
 
-## 9. Evidence and Localization
-
-The backend includes validation logic for model-generated output.
-
-The processing pipeline includes:
-
-1. Image validation and preprocessing.
-2. Structured model prompting.
-3. Validation of model confidence values.
-4. Validation of model-provided locations.
-5. Clinical evidence traceability.
-6. Removal/softening of unsupported or overly definitive findings.
-7. Returning an insufficient-evidence state when reliable evidence is unavailable.
-
-Bounding-box coordinates are represented relative to the original uploaded image and converted by the frontend for responsive visualization.
-
-A heatmap, when provided, is displayed as an image overlay.
+- Sensitivity
+- Specificity
+- Precision
+- Recall
+- False-negative rate
+- ROC-AUC / PR-AUC where appropriate
 
 ---
 
-## 10. API Endpoints
+## 12. API Endpoints
 
-### Health
+The backend provides REST endpoints for health checks, model status, and image analysis.
+
+### Health Check
 
 ```http
 GET /health
@@ -544,14 +471,16 @@ GET /api/v1/model/status
 POST /api/v1/analyze
 ```
 
-Multipart fields include:
+The analysis request uses multipart form data containing the medical image and available patient information.
+
+Example fields may include:
 
 ```text
 image
 patient_age
 patient_sex
-clinical_notes
 symptoms
+clinical_notes
 test_results
 ```
 
@@ -561,7 +490,7 @@ test_results
 GET /api/v1/analysis/{id}/annotated-image
 ```
 
-Full API documentation is available through:
+For the exact request and response contract, use the Swagger documentation:
 
 ```text
 http://localhost:8000/docs
@@ -569,139 +498,190 @@ http://localhost:8000/docs
 
 ---
 
-## 11. Mock Mode
+## 13. Evidence and Localization
 
-The project can be demonstrated without Ollama.
+The system is designed to process model output before presenting it to the user.
 
-### Backend mock mode
+The workflow can include:
 
-Set:
+1. Image validation and preprocessing.
+2. Structured prompting of the medical vision-language model.
+3. Confidence validation.
+4. Location validation.
+5. Clinical-evidence checking.
+6. Filtering or softening unsupported definitive statements.
+7. Returning an insufficient-evidence state when reliable evidence is unavailable.
 
-```env
-MOCK_MODEL=true
-```
+### Localization
 
-The backend returns deterministic sample results.
+The interface can visualize suspected regions using:
 
-### Frontend mock mode
+- Bounding boxes
+- Optional heatmaps
 
-Set:
+These visualizations should be treated as **AI-assisted indications**, not as clinically validated detection or segmentation results.
+
+---
+
+## 14. Mock Mode
+
+The project can be demonstrated without running the AI model by using mock responses, if supported by the current configuration.
+
+### Frontend Mock Mode
 
 ```env
 NEXT_PUBLIC_USE_MOCK_API=true
 ```
 
-The frontend uses built-in mock results and does not require the backend for the UI demonstration.
+### Backend Mock Mode
 
-For the actual demonstrated AI workflow, use:
+```env
+MOCK_MODEL=true
+```
+
+For the real MedGemma demonstration, use:
 
 ```env
 NEXT_PUBLIC_USE_MOCK_API=false
 MOCK_MODEL=false
 ```
 
-with Ollama and MedGemma running.
+and make sure Ollama and MedGemma are running.
 
 ---
 
-## 12. Testing
+## 15. Testing
 
-Run backend tests:
+Run the backend test suite:
 
 ```bash
 cd medical-ai-backend
 python -m pytest -q
 ```
 
-The test suite covers areas including:
+Tests can cover areas such as:
 
 - Health endpoint
-- Ollama availability
+- Model availability
 - Invalid images
 - Corrupt images
 - Oversized images
 - Unsupported image formats
 - Missing request fields
-- Mock model responses
-- Invalid model JSON
-- Timeouts
+- Mock responses
+- Invalid model responses
+- Timeout handling
 - Schema validation
 - Confidence validation
 - Location validation
 - Evidence rules
 - Image endpoints
-- CORS
+- CORS configuration
 
 ---
 
-## 13. Applications in the Medical Industry
+## 16. Applications in the Medical Industry
 
-Potential applications include:
+### 16.1 Radiology Assistance
 
-1. **Radiology assistance and second-opinion support**
-2. **Brain MRI/CT abnormality analysis**
-3. **Chest X-ray screening**
-4. **Clinical decision-support using image and patient context**
-5. **Emergency case prioritization and triage**
-6. **Telemedicine and remote image review**
-7. **Medical research**
-8. **Medical education and training**
-9. **Clinical documentation assistance**
+Assist radiologists by highlighting suspicious regions and providing AI-assisted explanations for medical images.
 
-The system is intended to support healthcare professionals rather than independently diagnose patients.
+### 16.2 Brain MRI and CT Analysis
 
----
+Assist clinicians in reviewing suspicious regions in brain imaging and directing attention to areas requiring further assessment.
 
-## 14. Limitations
+### 16.3 Chest X-ray Screening
 
-This project is a prototype and has important limitations:
+Support preliminary screening workflows by analyzing chest X-ray images together with relevant patient symptoms and clinical information.
 
-- It is **not clinically validated**.
-- It is not a certified medical device.
-- MedGemma is used as a pretrained model and is not trained specifically by this project.
-- Model-generated confidence should not automatically be interpreted as a calibrated probability of diagnostic correctness.
-- Model-generated localization is not equivalent to validated medical-image detection or segmentation.
-- False positives and false negatives are possible.
-- Absence of an AI finding does not exclude disease.
-- The system currently focuses on uploaded images rather than a complete clinical imaging infrastructure.
-- Real-world deployment would require authentication, encryption, access control, audit logging, retention policies, clinical validation, and appropriate regulatory compliance.
-- Results require review by a qualified healthcare professional.
+### 16.4 Clinical Decision Support
 
----
-
-## 15. Future Enhancements
-
-Possible future improvements include:
-
-- Specialized medical-image detection models.
-- Segmentation models for precise lesion boundaries.
-- Calibrated confidence estimation.
-- DICOM and multi-slice CT/MRI support.
-- Larger clinical validation datasets.
-- Sensitivity/specificity and ROC-AUC evaluation.
-- External validation across hospitals/datasets.
-- Improved low-quality image handling.
-- Role-based authentication.
-- Encryption and secure medical-data storage.
-- Audit logging and data-retention controls.
-- Integration with hospital information systems/PACS where appropriate.
-
----
-
-## 16. Project Summary
-
-**Multimodal Medical Image Intelligence** integrates a web-based clinical interface, FastAPI backend, local Ollama inference, and MedGemma 1.5 4B to create a multimodal medical-image analysis workflow.
-
-The main contribution is the integration of:
+Combine:
 
 ```text
 Medical Image
       +
-Clinical Context
+Patient Information
       +
-Medical Vision-Language Model
+Clinical Notes
       +
-Evidence
+Test Results
+      |
+      v
+AI-Assisted Analysis
+```
+
+This provides image-based and context-based information in a single interface.
+
+### 16.5 Emergency Case Prioritization
+
+The system could potentially help prioritize suspicious cases for earlier human review in high-volume clinical environments.
+
+### 16.6 Telemedicine
+
+Support remote medical-image review when specialist interpretation is not immediately available.
+
+### 16.7 Medical Research
+
+Provide a platform for experimenting with multimodal medical-image analysis, evidence visualization, and AI-assisted clinical workflows.
+
+### 16.8 Medical Education
+
+Help medical students and trainees study medical images using visual evidence and AI-generated explanations.
+
+---
+
+## 17. Limitations
+
+This project is a prototype and has important limitations:
+
+- It is not clinically validated.
+- It is not a certified medical device.
+- MedGemma is used as a pretrained model.
+- Model-generated confidence should not automatically be treated as a calibrated probability.
+- AI-generated localization is not equivalent to validated medical-image detection or segmentation.
+- False positives and false negatives are possible.
+- Absence of an AI finding does not exclude disease.
+- The current system is not a complete hospital imaging infrastructure.
+- Real-world deployment would require authentication, encryption, access control, audit logging, data-retention policies, clinical validation, and regulatory compliance.
+- Results must be reviewed by a qualified healthcare professional.
+
+---
+
+## 18. Future Enhancements
+
+Future development can include:
+
+- Specialized medical-image detection models.
+- Segmentation models for precise lesion boundaries.
+- Calibrated confidence estimation.
+- DICOM support.
+- Multi-slice CT/MRI support.
+- Clinical validation datasets.
+- Sensitivity, specificity, ROC-AUC, and PR-AUC evaluation.
+- External validation across datasets and hospitals.
+- Improved low-quality image handling.
+- Authentication and role-based access control.
+- Encryption and secure medical-data storage.
+- Audit logging.
+- Integration with hospital information systems or PACS where appropriate.
+
+---
+
+## 19. Project Contribution
+
+The project does not train a new medical foundation model from scratch.
+
+The main contribution is the integration of multiple components into a single multimodal workflow:
+
+```text
+Medical Image
+      +
+Patient Clinical Context
+      +
+MedGemma 1.5 4B
+      +
+Evidence Processing
       +
 Localization
       +
@@ -710,8 +690,12 @@ Confidence Filtering
 Clinician-facing Visualization
 ```
 
-This creates a unified AI-assisted workflow for reviewing medical images together with relevant patient information.
+This creates an integrated AI-assisted medical-image review workflow rather than a simple image-classification application.
 
-> **Disclaimer:** This project is an AI-assisted clinical decision-support prototype. It is not a replacement for a qualified medical professional, and its outputs should not be used as a standalone diagnosis or treatment decision.
+---
+
+## 20. Safety Disclaimer
+
+> **This system is an AI-assisted clinical decision-support prototype. It is not a replacement for a qualified medical professional. AI-generated findings may be incorrect and must be reviewed by an appropriately qualified healthcare professional. The system is not intended to provide a standalone diagnosis or treatment decision.**
 #   M u l t i m o d a l - M e d i c a l - I m a g e - I n t e l l i g e n c e  
  
